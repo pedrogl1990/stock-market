@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Create() {
   const [formData, setFormData] = useState({
@@ -7,9 +8,9 @@ export default function Create() {
     price: 0,
   });
 
-  function handleChange(e) {
-    console.log("handleChange: ", e.target.value);
+  const navigate = useNavigate();
 
+  function handleChange(e) {
     const { name, value } = e.target;
 
     setFormData((prevState) => ({
@@ -20,7 +21,16 @@ export default function Create() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("submit");
+
+    fetch("https://justivo.com/stockws.php?add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((result) => navigate("/detail/" + result.code));
   }
 
   return (
@@ -69,7 +79,9 @@ export default function Create() {
           </label>
         </div>
       </form>
-      <button type="submit">Guardar</button>
+      <button type="submit" onClick={handleSubmit}>
+        Guardar
+      </button>
     </main>
   );
 }

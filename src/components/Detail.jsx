@@ -6,10 +6,17 @@ export default function Detail() {
   const [stock, setStock] = useState();
 
   useEffect(() => {
-    fetch("https://justivo.com/stockws.php?get&code=BST")
+    fetch("https://justivo.com/stockws.php?get&code=" + params.code)
       .then((response) => response.json())
       .then((dataReceived) => setStock(dataReceived));
-  }, []);
+  }, [params.code]);
+
+  function toggleFavorite() {
+    setStock((prevState) => ({
+      ...prevState,
+      isFavorite: !prevState.isFavorite,
+    }));
+  }
 
   return (
     <>
@@ -18,6 +25,11 @@ export default function Detail() {
           <h2>{stock.name}</h2>
           <h3>{stock.code}</h3>
           <div>Preço: {stock.price}€</div>
+          <div>
+            <button onClick={toggleFavorite}>
+              {stock.isFavorite ? "Remover Favorito" : "Marcar Favorito"}
+            </button>
+          </div>
         </section>
       )}
     </>

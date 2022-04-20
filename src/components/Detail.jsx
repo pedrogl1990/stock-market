@@ -1,3 +1,3 @@
 export default function Detail() {
-  return <div>Detail</div>;
+  return <section>teste</section>;
 }

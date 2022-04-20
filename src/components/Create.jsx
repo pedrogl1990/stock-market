@@ -1,6 +1,21 @@
+import { useState } from "react";
+
 export default function Create() {
+  const [formData, setFormData] = useState({
+    name: "",
+    code: "",
+    price: 0,
+  });
+
   function handleChange(e) {
     console.log("handleChange: ", e.target.value);
+
+    const { name, value } = e.target;
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   }
 
   function handleSubmit(e) {
@@ -16,6 +31,7 @@ export default function Create() {
             Nome
             <input
               onChange={handleChange}
+              value={formData.name}
               type="text"
               name="name"
               required
@@ -29,6 +45,7 @@ export default function Create() {
             Código
             <input
               onChange={handleChange}
+              value={formData.code}
               type="text"
               name="code"
               required
@@ -42,6 +59,7 @@ export default function Create() {
             Preço
             <input
               onChange={handleChange}
+              value={formData.price}
               type="number"
               name="price"
               required
